@@ -13,7 +13,7 @@ const INSTAGRAM_URL = "https://www.instagram.com/urbanixstore07";
 const ProductDetail = () => {
   const { id } = useParams<{ id: string }>();
   const { data: product, isLoading, error } = useProduct(id || "");
-  const { formatPrice } = useCurrency();
+  const { formatPrice, currency } = useCurrency();
   const { addItem } = useCart();
 
   const [selectedSize, setSelectedSize] = useState<string>("");
@@ -136,6 +136,11 @@ const ProductDetail = () => {
               <p className="text-3xl font-bold text-gradient mt-4">
                 {formatPrice(product.priceUSD)}
               </p>
+              {currency === "INR" && (
+                <p className="text-xs text-muted-foreground mt-1">
+                  *Price in INR varies based on live USD exchange rate
+                </p>
+              )}
             </div>
 
             {product.description && (
