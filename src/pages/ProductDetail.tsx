@@ -17,7 +17,7 @@ const ProductDetail = () => {
   const { addItem } = useCart();
 
   const [selectedSize, setSelectedSize] = useState<string>("");
-  const [selectedColor, setSelectedColor] = useState<string>("");
+  
   const [quantity, setQuantity] = useState(1);
   const [activeImage, setActiveImage] = useState(0);
 
@@ -68,7 +68,7 @@ const ProductDetail = () => {
       image: product.primaryImage,
       priceUSD: product.priceUSD,
       size: selectedSize || "One Size",
-      color: selectedColor || "",
+      color: "",
       quantity,
     });
   };
@@ -76,7 +76,7 @@ const ProductDetail = () => {
   const handleBuyNow = () => {
     handleAddToCart();
     // Generate order message and open Instagram
-    const message = `Hi! I'd like to order:\n\n${product.title}\nSize: ${selectedSize || "One Size"}\n${selectedColor ? `Color: ${selectedColor}\n` : ""}Qty: ${quantity}\nPrice: ${formatPrice(product.priceUSD * quantity)}\n\nPlease confirm availability!`;
+    const message = `Hi! I'd like to order:\n\n${product.title}\nSize: ${selectedSize || "One Size"}\nQty: ${quantity}\nPrice: ${formatPrice(product.priceUSD * quantity)}\n\nPlease confirm availability!`;
     navigator.clipboard.writeText(message);
     window.open(INSTAGRAM_URL, "_blank");
     alert("Order details copied! Paste in Instagram DM.");
@@ -169,28 +169,6 @@ const ProductDetail = () => {
               </div>
             )}
 
-            {/* Color Selection */}
-            {product.colors.length > 0 && (
-              <div>
-                <label className="block text-sm font-medium mb-3">Color</label>
-                <div className="flex flex-wrap gap-2">
-                  {product.colors.map((color) => (
-                    <button
-                      key={color}
-                      onClick={() => setSelectedColor(color)}
-                      className={cn(
-                        "px-4 py-2 border rounded-lg font-medium transition-all",
-                        selectedColor === color
-                          ? "border-primary bg-primary text-primary-foreground"
-                          : "border-border hover:border-primary"
-                      )}
-                    >
-                      {color}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
 
             {/* Quantity */}
             <div>
