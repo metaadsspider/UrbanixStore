@@ -80,9 +80,31 @@ serve(async (req) => {
 
     // Transform products to a cleaner format
     const products = (productsData.data || []).map((product: any) => {
-      // Get unique sizes and colors from variants
-      const sizes = [...new Set(product.variants?.map((v: any) => v.title?.split(" / ")[1]).filter(Boolean) || [])];
-      const colors = [...new Set(product.variants?.map((v: any) => v.title?.split(" / ")[0]).filter(Boolean) || [])];
+      // Get unique sizes from variants - extract only actual sizes (S, M, L, XL, etc.)
+      // Printify format is typically "Color / Size" - we only want actual clothing sizes
+      const sizePatterns = /^(XXS|XS|S|M|L|XL|2XL|3XL|4XL|5XL|ONE SIZE|\d+)$/i;
+      const extractedSizes: string[] = [];
+      
+      product.variants?.forEach((v: any) => {
+        const parts = v.title?.split(" / ") || [];
+        parts.forEach((part: string) => {
+          const trimmed = part.trim();
+          if (sizePatterns.test(trimmed) && !extractedSizes.includes(trimmed)) {
+            extractedSizes.push(trimmed);
+          }
+        });
+      });
+      
+      // Sort sizes in logical order
+      const sizeOrder = ['XXS', 'XS', 'S', 'M', 'L', 'XL', '2XL', '3XL', '4XL', '5XL'];
+      const sizes = extractedSizes.sort((a, b) => {
+        const aIndex = sizeOrder.indexOf(a.toUpperCase());
+        const bIndex = sizeOrder.indexOf(b.toUpperCase());
+        if (aIndex !== -1 && bIndex !== -1) return aIndex - bIndex;
+        if (aIndex !== -1) return -1;
+        if (bIndex !== -1) return 1;
+        return a.localeCompare(b);
+      });
       
       // Get price from first enabled variant
       const enabledVariant = product.variants?.find((v: any) => v.is_enabled);
@@ -105,7 +127,7 @@ serve(async (req) => {
         images,
         primaryImage,
         sizes,
-        colors,
+        colors: [],
         variants: product.variants?.filter((v: any) => v.is_enabled).map((v: any) => ({
           id: v.id,
           title: v.title,
