@@ -9,7 +9,7 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product, index = 0 }: ProductCardProps) {
-  const { formatPrice } = useCurrency();
+  const { formatPrice, currency } = useCurrency();
 
   return (
     <Link
@@ -41,6 +41,11 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
         <p className="text-lg font-semibold text-gradient">
           {formatPrice(product.priceUSD)}
         </p>
+        {currency === "INR" && (
+          <p className="text-xs text-muted-foreground">
+            *Varies on live USD rate
+          </p>
+        )}
         {product.sizes.length > 0 && (
           <p className="text-sm text-muted-foreground">
             {product.sizes.slice(0, 4).join(", ")}
