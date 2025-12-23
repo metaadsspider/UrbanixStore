@@ -66,8 +66,9 @@ export function categorizeProduct(product: Product): string {
   if (tags.includes("cap") || tags.includes("hat") || title.includes("cap") || title.includes("hat")) {
     return "caps";
   }
-  if (tags.includes("sunglasses") || tags.includes("glasses") || title.includes("sunglass") || title.includes("glasses")) {
-    return "sunglasses";
+  if (tags.includes("accessory") || tags.includes("accessories") || tags.includes("bag") || tags.includes("wallet") || 
+      tags.includes("jewelry") || title.includes("accessory") || title.includes("bag") || title.includes("wallet")) {
+    return "accessories";
   }
   if (tags.includes("shirt") || tags.includes("tshirt") || tags.includes("t-shirt") || 
       tags.includes("hoodie") || tags.includes("jacket") || tags.includes("sweater") ||
