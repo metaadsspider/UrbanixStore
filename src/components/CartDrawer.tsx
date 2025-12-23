@@ -2,14 +2,14 @@ import { Minus, Plus, Trash2, Instagram, ShoppingBag } from "lucide-react";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/contexts/CartContext";
-import { useCurrency } from "@/contexts/CurrencyContext";
 import { Separator } from "@/components/ui/separator";
 
 const INSTAGRAM_URL = "https://www.instagram.com/urbanixstore07";
 
+const formatPrice = (priceUSD: number) => `$${priceUSD.toFixed(2)}`;
+
 export function CartDrawer() {
   const { items, isOpen, setIsOpen, removeItem, updateQuantity, totalPriceUSD, clearCart } = useCart();
-  const { formatPrice, currency } = useCurrency();
 
   const generateOrderMessage = () => {
     let message = "Hi! I'd like to place an order:\n\n";
