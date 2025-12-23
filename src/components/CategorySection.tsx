@@ -17,10 +17,10 @@ const categories = [
     gradient: "from-blue-500/20 to-cyan-500/20",
   },
   {
-    id: "sunglasses",
-    name: "Sunglasses",
-    description: "Premium eyewear",
-    image: "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=600&h=800&fit=crop",
+    id: "accessories",
+    name: "Accessories",
+    description: "Bags, wallets & more",
+    image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=600&h=800&fit=crop",
     gradient: "from-orange-500/20 to-red-500/20",
   },
 ];
