@@ -3,7 +3,6 @@ import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/contexts/CartContext";
-import { CurrencySwitcher } from "./CurrencySwitcher";
 import { cn } from "@/lib/utils";
 
 const navLinks = [
@@ -51,8 +50,6 @@ export function Header() {
 
         {/* Right Side Actions */}
         <div className="flex items-center gap-3">
-          <CurrencySwitcher />
-          
           <Button
             variant="ghost"
             size="icon"

@@ -1,7 +1,5 @@
 import { Link } from "react-router-dom";
 import { Product } from "@/hooks/useProducts";
-import { useCurrency } from "@/contexts/CurrencyContext";
-import { cn } from "@/lib/utils";
 
 interface ProductCardProps {
   product: Product;
@@ -9,7 +7,6 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product, index = 0 }: ProductCardProps) {
-  const { formatPrice, currency } = useCurrency();
 
   return (
     <Link
@@ -39,13 +36,8 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
           {product.title}
         </h3>
         <p className="text-lg font-semibold text-gradient">
-          {formatPrice(product.priceUSD)}
+          ${product.priceUSD.toFixed(2)}
         </p>
-        {currency === "INR" && (
-          <p className="text-xs text-muted-foreground">
-            *Varies on live USD rate
-          </p>
-        )}
         {product.sizes.length > 0 && (
           <p className="text-sm text-muted-foreground">
             {product.sizes.slice(0, 4).join(", ")}

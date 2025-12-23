@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { ArrowLeft, Minus, Plus, ShoppingBag, Instagram } from "lucide-react";
 import { useProduct } from "@/hooks/useProducts";
-import { useCurrency } from "@/contexts/CurrencyContext";
 import { useCart } from "@/contexts/CartContext";
 import { Button } from "@/components/ui/button";
 import { Footer } from "@/components/Footer";
@@ -13,7 +12,6 @@ const INSTAGRAM_URL = "https://www.instagram.com/urbanixstore07";
 const ProductDetail = () => {
   const { id } = useParams<{ id: string }>();
   const { data: product, isLoading, error } = useProduct(id || "");
-  const { formatPrice, currency } = useCurrency();
   const { addItem } = useCart();
 
   const [selectedSize, setSelectedSize] = useState<string>("");
@@ -76,7 +74,7 @@ const ProductDetail = () => {
   const handleBuyNow = () => {
     handleAddToCart();
     // Generate order message and open Instagram
-    const message = `Hi! I'd like to order:\n\n${product.title}\nSize: ${selectedSize || "One Size"}\nQty: ${quantity}\nPrice: ${formatPrice(product.priceUSD * quantity)}\n\nPlease confirm availability!`;
+    const message = `Hi! I'd like to order:\n\n${product.title}\nSize: ${selectedSize || "One Size"}\nQty: ${quantity}\nPrice: $${(product.priceUSD * quantity).toFixed(2)}\n\nPlease confirm availability!`;
     navigator.clipboard.writeText(message);
     window.open(INSTAGRAM_URL, "_blank");
     alert("Order details copied! Paste in Instagram DM.");
@@ -134,13 +132,8 @@ const ProductDetail = () => {
                 {product.title}
               </h1>
               <p className="text-3xl font-bold text-gradient mt-4">
-                {formatPrice(product.priceUSD)}
+                ${product.priceUSD.toFixed(2)}
               </p>
-              {currency === "INR" && (
-                <p className="text-xs text-muted-foreground mt-1">
-                  *Price in INR varies based on live USD exchange rate
-                </p>
-              )}
             </div>
 
             {product.description && (
