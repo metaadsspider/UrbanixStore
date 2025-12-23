@@ -63,17 +63,18 @@ export function categorizeProduct(product: Product): string {
   const title = product.title.toLowerCase();
   const tags = product.tags.map((t) => t.toLowerCase());
   
+  // Check for caps first
   if (tags.includes("cap") || tags.includes("hat") || title.includes("cap") || title.includes("hat")) {
     return "caps";
   }
-  if (tags.includes("accessory") || tags.includes("accessories") || tags.includes("bag") || tags.includes("wallet") || 
-      tags.includes("jewelry") || title.includes("accessory") || title.includes("bag") || title.includes("wallet")) {
-    return "others";
-  }
+  
+  // Check for clothes
   if (tags.includes("shirt") || tags.includes("tshirt") || tags.includes("t-shirt") || 
       tags.includes("hoodie") || tags.includes("jacket") || tags.includes("sweater") ||
       title.includes("shirt") || title.includes("hoodie") || title.includes("jacket")) {
     return "clothes";
   }
-  return "all";
+  
+  // Everything else goes to "others" (mugs, accessories, bags, etc.)
+  return "others";
 }
