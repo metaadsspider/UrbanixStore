@@ -10,7 +10,7 @@ const navLinks = [
   { href: "/products", label: "All Products" },
   { href: "/products?category=clothes", label: "Clothes" },
   { href: "/products?category=caps", label: "Caps" },
-  { href: "/products?category=sunglasses", label: "Sunglasses" },
+  { href: "/products?category=accessories", label: "Accessories" },
 ];
 
 export function Header() {
