@@ -5,6 +5,14 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
+// Generic error messages for client - never expose internal details
+const CLIENT_ERRORS = {
+  CONFIG_ERROR: "Service configuration error",
+  FETCH_SHOPS_ERROR: "Unable to load store information",
+  FETCH_PRODUCTS_ERROR: "Unable to load products",
+  INTERNAL_ERROR: "An unexpected error occurred",
+};
+
 serve(async (req) => {
   // Handle CORS preflight
   if (req.method === "OPTIONS") {
@@ -15,9 +23,9 @@ serve(async (req) => {
     const PRINTIFY_API_TOKEN = Deno.env.get("PRINTIFY_API_TOKEN");
     
     if (!PRINTIFY_API_TOKEN) {
-      console.error("PRINTIFY_API_TOKEN not found");
+      console.error("PRINTIFY_API_TOKEN not found in environment");
       return new Response(
-        JSON.stringify({ error: "API token not configured" }),
+        JSON.stringify({ error: CLIENT_ERRORS.CONFIG_ERROR }),
         { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
@@ -34,10 +42,10 @@ serve(async (req) => {
 
     if (!shopsResponse.ok) {
       const errorText = await shopsResponse.text();
-      console.error("Failed to fetch shops:", errorText);
+      console.error("Failed to fetch shops - Status:", shopsResponse.status, "Details:", errorText);
       return new Response(
-        JSON.stringify({ error: "Failed to fetch shops", details: errorText }),
-        { status: shopsResponse.status, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        JSON.stringify({ error: CLIENT_ERRORS.FETCH_SHOPS_ERROR }),
+        { status: 502, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
 
@@ -68,10 +76,10 @@ serve(async (req) => {
 
     if (!productsResponse.ok) {
       const errorText = await productsResponse.text();
-      console.error("Failed to fetch products:", errorText);
+      console.error("Failed to fetch products - Status:", productsResponse.status, "Details:", errorText);
       return new Response(
-        JSON.stringify({ error: "Failed to fetch products", details: errorText }),
-        { status: productsResponse.status, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        JSON.stringify({ error: CLIENT_ERRORS.FETCH_PRODUCTS_ERROR }),
+        { status: 502, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
 
@@ -148,10 +156,9 @@ serve(async (req) => {
       { headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   } catch (error: unknown) {
-    const errorMessage = error instanceof Error ? error.message : "Unknown error";
-    console.error("Error in printify-products function:", error);
+    console.error("Error in printify-products function:", error instanceof Error ? error.message : error);
     return new Response(
-      JSON.stringify({ error: errorMessage }),
+      JSON.stringify({ error: CLIENT_ERRORS.INTERNAL_ERROR }),
       { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   }
