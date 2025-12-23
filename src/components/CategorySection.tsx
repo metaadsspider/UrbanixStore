@@ -19,8 +19,8 @@ const categories = [
   {
     id: "others",
     name: "Others",
-    description: "Bags, wallets & more",
-    image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=600&h=800&fit=crop",
+    description: "Mugs, accessories & more",
+    image: "https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?w=600&h=800&fit=crop",
     gradient: "from-orange-500/20 to-red-500/20",
   },
 ];
