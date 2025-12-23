@@ -17,8 +17,8 @@ const categories = [
     gradient: "from-blue-500/20 to-cyan-500/20",
   },
   {
-    id: "accessories",
-    name: "Accessories",
+    id: "others",
+    name: "Others",
     description: "Bags, wallets & more",
     image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=600&h=800&fit=crop",
     gradient: "from-orange-500/20 to-red-500/20",
