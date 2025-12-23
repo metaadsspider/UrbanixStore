@@ -8,7 +8,7 @@ const categories = [
   { id: "all", label: "All Products" },
   { id: "clothes", label: "Clothes" },
   { id: "caps", label: "Caps" },
-  { id: "accessories", label: "Accessories" },
+  { id: "others", label: "Others" },
 ];
 
 const Products = () => {
